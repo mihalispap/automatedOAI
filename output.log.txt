@@ -1,3 +1,5 @@
-URLhttp://21bs.ru/index.php/index/oai?verb=ListRecords&until=2016-08-15&from=2016-08-16&set=bio&metadataPrefix=oai_dc
+URLhttp://21bs.ru/index.php/index/oai?verb=ListRecords&until=2016-08-15&from=1000-01-01&set=bio&metadataPrefix=oai_dc
 Got here!
-0
+Got here!
+In here URL:http://21bs.ru/index.php/index/oai?verb=ListRecords&resumptionToken=4907bf1e4d509e91d995e7ab72de402b
+110

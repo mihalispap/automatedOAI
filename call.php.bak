@@ -1,12 +1,21 @@
 <?php
 
-	//$xml=file_get_contents("http://akstem.com/export/collections/oai");
+	//echo "i was called";
 
-	$xml=file_get_contents("http://akstem.com/export/crm/collection/oai");
+	$xml=file_get_contents("http://akstem.com/export/collections/oai");
 
+	//print $xml;
+
+	//exit;
+
+	//$simple = "<para><note>simple note</note></para>";
 	$p = xml_parser_create();
 	xml_parse_into_struct($p, $xml, $vals, $index);
 	xml_parser_free($p);
+	//echo "Index array\n";
+	//print_r($index);
+	//echo "\nVals array\n";
+	//print_r($vals);
 
 	$fp=fopen("conf/setup.conf","w");
 
@@ -17,21 +26,10 @@
 		if(!isset($vals[$index['OAI-LINK'][$i]]['value']))
 			continue;
 
-		$vals[$index['CENTERCODE'][$i]]['value']=str_replace(" ","",$vals[$index['CENTERCODE'][$i]]['value']);
-		$vals[$index['CENTERCODE'][$i]]['value']=str_replace("\n","",$vals[$index['CENTERCODE'][$i]]['value']);
-		$vals[$index['CENTERCODE'][$i]]['value']=str_replace("\r","",$vals[$index['CENTERCODE'][$i]]['value']);
-
-		$vals[$index['OAI-LINK'][$i]]['value']=str_replace(" ","",$vals[$index['OAI-LINK'][$i]]['value']);
-
 		$oai=$vals[$index['OAI-LINK'][$i]]['value'];
 		$dnid=$vals[$index['NID'][$i]]['value'];
 		$countrycode=substr($vals[$index['CENTERCODE'][$i]]['value'],0,2);
 		$centercode=substr($vals[$index['CENTERCODE'][$i]]['value'],2,1);
-
-		//if($countrycode!="FR")
-		//	continue;
-
-		echo "|".$oai."|";
 
 		$fromp=fopen("conf/".$countrycode.$centercode.".from","r");
 		if ( !$fromp )
@@ -48,9 +46,6 @@
 
 		//if($countrycode!='RU')
 		//	continue;
-
-		$oai=preg_replace('/\?(.*)/i','',$oai);
-
 		$availablesets=file_get_contents($oai."?verb=ListSets");
 
 		$p = xml_parser_create();
@@ -60,8 +55,6 @@
 		//print_r($sindex);
 
 		$setspecs=array();
-
-		//echo "I am about to call:"."http://akstem.com/export/crm/collection/xml/".$countrycode."/".$centercode;
 
 		$p = xml_parser_create();
                 xml_parse_into_struct($p,
